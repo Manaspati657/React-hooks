@@ -1,51 +1,34 @@
-import { useState, useEffect } from 'react'
-import BlockComponent from './block';
+import { useState, useCallback } from "react";
+import Title from "./components/title";
+import Count from "./components/count";
+import CountBtn from './components/countBtn';
+import Age from "./components/age";
+import AgeBtn from "./components/ageBtn";
 
 const App = () => {
-  let [count,setCount] = useState(0);
-  let [animal,setAnimal] = useState('Dog');
-  let [block,setBlock] = useState(false)
-
-  const addOne  = () => setCount(count+1);
-  const restOne = () => setCount(count-1)
-  const setCero = () => setCount(0)
+    let [count,setCount] = useState(0);
+    let [age,setAge] = useState(10);
 
 
-  
-  useEffect(()=>{
-    return ()=>{
-      console.log('Use effect count')
-    }
-  },[count])
+    const handleCount = useCallback(() => {
+        setCount(count+1)
+    },[count])
+    
+    const handleAge = useCallback(() => {
+        setAge(age+1)
+    },[age])
+    
 
+    return(
+        <>
+            <Title/>
+            <Count count={count}/>
+            <CountBtn handleCount={handleCount}/>
+            <Age age={age}/>
+            <AgeBtn handleAge={handleAge}/>
+        </>
+    )
 
-  // useEffect(()=>{
-  //   console.log(count)
-  // },[count,animal])
-
-
-  // useEffect(()=>{
-  //   console.log(animal)
-  // },[animal])
-
-
-  return(
-    <>
-      <h3>Count: {count}</h3>
-      <button onClick={addOne}>+1</button>
-      <button onClick={restOne}>-1</button>
-      <button onClick={setCero}>Set to 0</button>
-      <hr/>
-      <h3>{animal}</h3>
-      <button onClick={()=>setAnimal('Cat')}>Change animal</button>
-      <hr/>
-      { block ? 
-        <BlockComponent/>
-        :null
-      }
-      <button onClick={()=>setBlock(!block)}>Block</button>
-    </>
-  )
 }
 
 export default App;
